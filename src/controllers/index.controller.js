@@ -6,8 +6,7 @@ import tratamientoModel from '../model/Tratamiento.js';
 
 //Crear Recomendacion
 export const getRecomendation = async (req, res) => {
-  const id = parseInt(req.params.id);
-
+  const id = req.params.id;
   try {
     const treatment = await tratamientoModel.find(id);
     if (!treatment) {

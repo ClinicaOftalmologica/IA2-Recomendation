@@ -18,6 +18,7 @@ export const store = async (Tratamiento) => {
 
 // Función para encontrar un tratamiento por su ID
 export const find = async (id) => {
+    
     try {
         const treatmentResponse = await pool.query('SELECT * FROM treatment WHERE tratamiento_id = $1;', [id]);
         return treatmentResponse.rows[0];

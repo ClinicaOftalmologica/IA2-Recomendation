@@ -10,7 +10,7 @@ A REST API using Node.js and PostgreSQL with pg library and using Express.js for
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com`
+1. Clone the repository: `git clone https://github.com/ClinicaOftalmologica/IA2-Recomendation.git`
 
 2. Install the dependencies: `npm install`
 
@@ -19,11 +19,13 @@ A REST API using Node.js and PostgreSQL with pg library and using Express.js for
 4. Create a .env file in the root directory and add the following:
 
 ```
-DB_USER=your_username
-DB_PASSWORD=your_password
-DB_HOST=your_host
-DB_PORT=your_port
-DB_DATABASE=your_database
+DB_USER=postgres
+DB_PASSWORD=12345678
+DB_HOST=localhost
+DB_DATABASE=db_recomendation
+DB_PORT=5432
+PORT=3000
+OPENAI_KEY=
 ```
 
 or just copy the .env.template file and fill it with your data.
@@ -31,12 +33,9 @@ or just copy the .env.template file and fill it with your data.
 5. Run the server: `npm run dev`
 
 ## Endpoints
-- GET /api//:id
-- POST /api/users
+- GET /api/recomendation/:id
+- POST /api/storeTreatment
 
-## Eslint
-
-To run eslint: `npm run lint`
 
 ## License
 
