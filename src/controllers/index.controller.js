@@ -1,52 +1,41 @@
 import { pool } from "../db.js";
+import  recomendacion from "../Service/OpenAIService.js";
+import tratamientoModel from '../model/Tratamiento.js';
 
-export const getUsers = async (req, res) => {
-  const response = await pool.query("SELECT * FROM users ORDER BY id ASC");
-  res.status(200).json(response.rows);
-};
 
-export const getUserById = async (req, res) => {
+
+//Crear Recomendacion
+export const getRecomendation = async (req, res) => {
   const id = parseInt(req.params.id);
-  const response = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
-  res.json(response.rows);
-};
 
-export const createUser = async (req, res) => {
   try {
-    const { name, email } = req.body;
+    const treatment = await tratamientoModel.find(id);
+    if (!treatment) {
+      return res.json("El tratamiento no existe.");
+    }
 
-    const { rows } = await pool.query(
-      "INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *",
-      [name, email]
-    );
+    const recomendation = await tratamientoModel.getRecomendationsByTreatmentId(id);
 
-    res.status(201).json(rows[0]);
+    if (recomendation) {
+      return res.json(recomendation);
+    } else {  
+      const respuesta = await recomendacion(treatment.detail);
+      const newRecomendation = await tratamientoModel.createRecomendation(treatment.id, respuesta);
+      return res.json(newRecomendation);
+    }
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    console.error('Error obteniendo la recomendación:', error);
+    return res.status(500).json('Error del servidor');
   }
 };
 
-export const updateUser = async (req, res) => {
-  const id = parseInt(req.params.id);
-  const { name, email } = req.body;
-
-  const { rows } = await pool.query(
-    "UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *",
-    [name, email, id]
-  );
-
-  return res.json(rows[0]);
-};
-
-export const deleteUser = async (req, res) => {
-  const id = parseInt(req.params.id);
-  const { rowCount } = await pool.query("DELETE FROM users where id = $1", [
-    id,
-  ]);
-
-  if (rowCount === 0) {
-    return res.status(404).json({ message: "User not found" });
-  }
-
-  return res.sendStatus(204);
-};
+//Crear Tratamiento
+export const createTreatment = async (req,res) => {
+    try {
+        const treatmentData = req.body;
+        const newTreatment = await tratamientoModel.store(treatmentData);
+        res.status(201).json(newTreatment);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}

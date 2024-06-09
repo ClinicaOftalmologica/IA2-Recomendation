@@ -10,7 +10,7 @@ A REST API using Node.js and PostgreSQL with pg library and using Express.js for
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/FaztWeb/postgresql-node-restapi.git`
+1. Clone the repository: `git clone https://github.com`
 
 2. Install the dependencies: `npm install`
 
@@ -31,12 +31,8 @@ or just copy the .env.template file and fill it with your data.
 5. Run the server: `npm run dev`
 
 ## Endpoints
-
-- GET /api/users
-- GET /api/users/:id
+- GET /api//:id
 - POST /api/users
-- PUT /api/users/:id
-- DELETE /api/users/:id
 
 ## Eslint
 

@@ -14,3 +14,4 @@ export const pool = new pg.Pool({
   database: DB_DATABASE,
   port: DB_PORT,
 });
+
